@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Coffee, ExternalLink, MessageCircle, Wallet } from 'lucide-react';
 import { formatEther, parseEther } from 'ethers';
-import { connectWallet, CONTRACT_ADDRESS, getReadOnlyContract } from './contract';
+import {
+  connectWallet,
+  CONTRACT_ADDRESS,
+  getReadOnlyContract,
+} from './contract';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface Contribution {
@@ -32,7 +36,10 @@ function App() {
 
     return () => {
       if (window.ethereum) {
-        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        window.ethereum.removeListener(
+          'accountsChanged',
+          handleAccountsChanged
+        );
         window.ethereum.removeListener('chainChanged', () => {});
         window.ethereum.removeListener('disconnect', handleDisconnect);
       }
@@ -42,7 +49,9 @@ function App() {
   async function checkConnection() {
     if (window.ethereum && !isConnecting) {
       try {
-        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        const accounts = await window.ethereum.request({
+          method: 'eth_accounts',
+        });
         if (accounts.length > 0) {
           setAccount(accounts[0]);
           setIsConnected(true);
@@ -65,7 +74,7 @@ function App() {
         // Reset connection state before reconnecting
         setIsConnected(false);
         setAccount(null);
-        
+
         // Ensure we get the latest account
         const { signer } = await connectWallet();
         const address = await signer.getAddress();
@@ -146,7 +155,10 @@ function App() {
     <div className="min-h-screen bg-[#0A0A0A] text-white">
       <div className="absolute inset-0 bg-[url('https://somnia.network/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
       <div className="relative">
-        <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+        <div
+          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+          aria-hidden="true"
+        >
           <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div>
         </div>
       </div>
@@ -156,8 +168,12 @@ function App() {
           <div className="flex items-center justify-center mb-4">
             <Coffee className="w-12 h-12 text-purple-500" />
           </div>
-          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 mb-4">Buy Me a Coffee</h1>
-          <p className="text-gray-400">Support my work by buying me a virtual coffee!</p>
+          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 mb-4">
+            Buy Me a Coffee
+          </h1>
+          <p className="text-gray-400">
+            Support my work by buying me a virtual coffee!
+          </p>
 
           {!isConnected ? (
             <button
@@ -186,7 +202,9 @@ function App() {
 
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-gray-900 rounded-xl shadow-xl p-6 border border-gray-800">
-            <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 mb-6">Buy a Coffee</h2>
+            <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 mb-6">
+              Buy a Coffee
+            </h2>
             <form onSubmit={handleBuyCoffee}>
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -227,20 +245,28 @@ function App() {
           </div>
 
           <div className="bg-gray-900 rounded-xl shadow-xl p-6 border border-gray-800">
-            <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 mb-6">Recent Supporters</h2>
+            <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 mb-6">
+              Recent Supporters
+            </h2>
             <div className="space-y-4 max-h-[400px] overflow-y-auto">
               {contributions.map((contribution, index) => (
-                <div key={index} className="border-b border-gray-800 last:border-0 pb-4">
+                <div
+                  key={index}
+                  className="border-b border-gray-800 last:border-0 pb-4"
+                >
                   <div className="flex items-start gap-3">
                     <MessageCircle className="w-5 h-5 text-purple-500 mt-1" />
                     <div>
                       <p className="text-gray-300 font-medium break-all">
-                        {contribution.supporter.slice(0, 6)}...{contribution.supporter.slice(-4)}
+                        {contribution.supporter.slice(0, 6)}...
+                        {contribution.supporter.slice(-4)}
                       </p>
                       <p className="text-gray-400">{contribution.message}</p>
                       <p className="text-sm text-gray-500">
                         {formatEther(contribution.amount)} STT •{' '}
-                        {new Date(Number(contribution.timestamp) * 1000).toLocaleDateString()}
+                        {new Date(
+                          Number(contribution.timestamp) * 1000
+                        ).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
@@ -252,7 +278,7 @@ function App() {
 
         <div className="mt-8 text-center">
           <a
-            href={`https://explorer.somnia.network/address/${CONTRACT_ADDRESS}`}
+            href={`https://shannon-explorer.somnia.network/address/0x392a0124ffcFeaA44E082E47093945085cD85500`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center text-gray-400 hover:text-purple-500 transition-colors"
